@@ -21,4 +21,9 @@ export default defineNuxtConfig({
             tailwindcss(),
         ],
     },
+    runtimeConfig: {
+        public: {
+            binanceApiUrl: 'https://api.binance.com/api/v3',
+        },
+    },
 })
