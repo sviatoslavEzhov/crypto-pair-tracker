@@ -13,7 +13,7 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
     ],
     pinia: {
-        storesDirs: ['./stores/**'],
+        storesDirs: ['./app/stores/**'],
     },
     css: ['./app/assets/css/main.css'],
     vite: {
