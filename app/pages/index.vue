@@ -13,6 +13,13 @@ watch(isSelectedSymbolsEmpty, (newVal) => {
     selectedPair.value = null
   }
 })
+
+onMounted(() => {
+  const saved = localStorage.getItem('favorites')
+  if (saved) {
+    selectedSymbols.value = JSON.parse(saved)
+  }
+})
 </script>
 
 <template>

@@ -7,6 +7,18 @@ const props = defineProps({
 const price = ref(null)
 const prevPrice = ref(null)
 const change24h = ref(0)
+const favorites = ref(JSON.parse(localStorage.getItem('favorites') || '[]'))
+
+const isFavorite = computed(() => favorites.value.some((f) => f.symbol === props.pair.symbol))
+
+const toggleFavorite = () => {
+  if (isFavorite.value) {
+    favorites.value = favorites.value.filter((f) => f.symbol !== props.pair.symbol)
+  } else {
+    favorites.value.push(props.pair)
+  }
+  localStorage.setItem('favorites', JSON.stringify(favorites.value))
+}
 
 if (import.meta.client) {
   const symbol = props.pair.symbol.toLowerCase()
@@ -28,7 +40,15 @@ if (import.meta.client) {
 </script>
 
 <template>
-  <div class="p-4 bg-gray-800 rounded-xl border border-gray-700">
+  <div class="p-4 bg-gray-800 rounded-xl border border-gray-700 relative">
+    <button
+      class="absolute top-3 right-3 text-yellow-400 hover:scale-110 transition"
+      @click.stop="toggleFavorite"
+    >
+      <span v-if="isFavorite">★</span>
+      <span v-else>☆</span>
+    </button>
+
     <div class="flex items-center gap-3 mb-2">
       <SymbolIcon :symbol="pair.baseAsset" />
       <span>{{ pair.symbol }}</span>
