@@ -2,9 +2,17 @@
 const selectedSymbols = ref([])
 const selectedPair = ref(null)
 
-function selectPair(pair) {
+const selectPair = (pair) => {
   selectedPair.value = pair.symbol
 }
+
+const isSelectedSymbolsEmpty = computed(() => selectedSymbols.value.length === 0)
+
+watch(isSelectedSymbolsEmpty, (newVal) => {
+  if (newVal) {
+    selectedPair.value = null
+  }
+})
 </script>
 
 <template>
@@ -33,9 +41,7 @@ function selectPair(pair) {
 
       <section v-if="selectedPair" class="p-4 bg-gray-800 rounded-xl border border-gray-700">
         <h3 class="text-lg font-semibold mb-2">Графік: {{ selectedPair }}</h3>
-        <div class="h-80 bg-gray-700 rounded-lg flex items-center justify-center">
-          <span class="text-gray-400">Candlestick Chart</span>
-        </div>
+        <PriceChart :symbol="selectedPair" />
       </section>
     </main>
   </div>
